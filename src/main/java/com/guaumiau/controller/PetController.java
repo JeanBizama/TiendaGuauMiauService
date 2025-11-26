@@ -29,7 +29,7 @@ public class PetController {
     }
     
     //Obtener mascotas por email de usuario
-    @GetMapping("/{userEmail}")
+    @GetMapping("/email/{userEmail}")
     public ResponseEntity<List<PetEntity>> getPetsByUserEmail(@PathVariable String userEmail) {
         if (userEmail.trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
@@ -39,7 +39,7 @@ public class PetController {
     }
     
     //Obtener mascota por ID
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<PetEntity> getPetById(@PathVariable Integer id) {
         return petRepository.findById(id)
                 .map(ResponseEntity::ok)
