@@ -29,8 +29,8 @@ public class PetController {
     }
     
     //Obtener mascotas por email de usuario
-    @GetMapping
-    public ResponseEntity<List<PetEntity>> getPetsByUserEmail(@RequestParam String userEmail) {
+    @GetMapping("/{userEmail}")
+    public ResponseEntity<List<PetEntity>> getPetsByUserEmail(@PathVariable String userEmail) {
         if (userEmail.trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
