@@ -16,6 +16,12 @@ public class PetController {
     @Autowired
     private PetRepository petRepository;
 
+    @GetMapping
+    public ResponseEntity<List<PetEntity>> getAllPets() {
+        List<PetEntity> pets = petRepository.findAll();
+        return ResponseEntity.ok(pets);
+    }
+
     // Crear mascota
     @PostMapping
     public ResponseEntity<PetEntity> createPet(@RequestBody PetEntity pet) {
@@ -45,6 +51,21 @@ public class PetController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PetEntity> updatePet(@PathVariable Integer id, @RequestBody PetEntity petDetails) {
+        return petRepository.findById(id)
+                .map(existingPet -> {
+                    existingPet.setName(petDetails.getName());
+                    existingPet.setType(petDetails.getType());
+                    existingPet.setUserEmail(petDetails.getUserEmail());
+
+                    PetEntity updatedPet = petRepository.save(existingPet);
+                    return ResponseEntity.ok(updatedPet);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     
     //Eliminar mascota
     @DeleteMapping("/{id}")
